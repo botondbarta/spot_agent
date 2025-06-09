@@ -1,0 +1,15 @@
+vision_model_name: "hf.co/ggml-org/InternVL3-8B-Instruct-GGUF:Q8_0"
+# vision_model_name: "hf.co/ggml-org/InternVL3-14B-Instruct-GGUF:Q8_0"
+# vision_model_name: "hf.co/ggml-org/Qwen2.5-VL-32B-Instruct-GGUF:Q8_0"
+# vision_model_name: "mistral-small3.1:latest"
+vision_temperature: 0.6
+
+manager_model_name: "qwen3:latest"
+# manager_model_name: "qwen2.5:latest"
+manager_temperature: 0.1
+
+
+save_img_path: "../images"
+use_last_n_img: 5
+
+recursion_limit: 200
