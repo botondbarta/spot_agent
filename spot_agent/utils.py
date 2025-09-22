@@ -35,7 +35,7 @@ def get_controller():
         rotateGaussianSigma=0.5,
         # renderDepthImage=False,
         # renderInstanceSegmentation=False,
-        width=448,
-        height=448,
+        width=900,
+        height=900,
         fieldOfView=70,
     )

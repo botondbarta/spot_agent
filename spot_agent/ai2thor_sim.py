@@ -10,14 +10,22 @@ from langgraph.prebuilt import tools_condition
 from langgraph.types import interrupt
 
 from spot_agent.img_handler import ImageHandler
-from spot_agent.llm import get_chat_model
+from spot_agent.llm import get_ollama_chat_model
 from spot_agent.prompts import sys_msg_manager_content, sys_msg_vision_content
 from spot_agent.utils import get_controller, get_config_from_yaml
 
 config = get_config_from_yaml('../config/config.yaml')
 
-vision_agent = get_chat_model(config.vision_model_name, temperature=config.vision_temperature)
-manager_agent = get_chat_model(config.manager_model_name, temperature=config.manager_temperature)
+vision_agent = get_ollama_chat_model(
+    config.vision_model_name,
+    api_base=config.ollama_api_base,
+    temperature=config.vision_temperature,
+)
+manager_agent = get_ollama_chat_model(
+    config.manager_model_name,
+    api_base=config.ollama_api_base,
+    temperature=config.manager_temperature,
+)
 
 img_handler = ImageHandler(config.save_img_path)
 
@@ -120,7 +128,7 @@ def vision_node(state: AgentState) -> dict:
     ]
 
     response = vision_agent.invoke(vision_prompt)
-
+    print(response)
     return {"messages": [HumanMessage(content=response.content, name="vision_assistant")]}
 
 
@@ -128,6 +136,7 @@ def manager_agent_node(state: AgentState) -> dict:
     messages_for_manager_llm = [SystemMessage(content=sys_msg_manager_content)] + state["messages"]
 
     response = manager_llm_with_tools.invoke(messages_for_manager_llm)
+    print(response)
     return {"messages": [response]}
 
 
